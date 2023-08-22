@@ -8,7 +8,7 @@
   - Create a listing page
   - Hovering over the ? should show a bit if info (example on one of the screens)
   - "Add to Cart" button should work and on every item
-  - Cart to display the amount of items in it
+  - Cart to display the amount of items in it, and it's total
   - Cart should have an show/hide feature on click
 
 - What is not required:
