@@ -1,0 +1,14 @@
+#productList {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.productItem {
+  flex: 1;
+  min-width: calc(25% - 10px);
+}
+
+.productItem:nth-child(3n) {
+  clear: both;
+}

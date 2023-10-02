@@ -1,0 +1,33 @@
+#addToChartContainer {
+    display: flex;
+    justify-content: center;
+}
+
+#tooltippContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.productItemImage {
+    width: 80%;
+    height: 10%;
+}
+
+.helpOutlineIcon {
+    background-color: grey;
+    color: white;
+    border-radius: 10;
+  
+}
+
+.keyFeaturesList {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.keyFeaturesList li {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
