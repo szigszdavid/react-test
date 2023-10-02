@@ -1,13 +1,13 @@
 import ShoppingWebsiteMenu from './menu/ShoppingWebsiteMenu'
 import './App.css'
-import HomePage from './pages/home/HomePage'
+import { Outlet } from 'react-router-dom'
 
 function App() {
 
   return (
     <>
       <ShoppingWebsiteMenu>
-        <HomePage />
+        <Outlet />
       </ShoppingWebsiteMenu>
     </>
   )

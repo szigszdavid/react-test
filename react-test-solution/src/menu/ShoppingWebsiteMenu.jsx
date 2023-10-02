@@ -6,13 +6,15 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Box from "@mui/material/Box";
 import { createContext, useState, useMemo } from "react";
 import "./ShoppingWebsiteMenu.css";
-import ClickAwayListener from '@mui/material/ClickAwayListener';
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import { useNavigate } from "react-router-dom";
 
 export const CartContext = createContext([]);
 
 export default function ShoppingWebsiteMenu({ children }) {
   const [cart, setCart] = useState([]);
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleTooltipClose = () => {
     setOpen(false);
@@ -21,6 +23,11 @@ export default function ShoppingWebsiteMenu({ children }) {
   const handleTooltipOpen = () => {
     setOpen(true);
   };
+
+  const handleCheckoutClick = () => {
+    setOpen(false)
+    navigate('checkout')
+  }
 
   const distinctArray = cart
     .filter((element, index, self) => index == self.indexOf(element))
@@ -32,8 +39,7 @@ export default function ShoppingWebsiteMenu({ children }) {
         </td>
         <td>£ {cartElement.price}</td>
       </tr>
-    ))
-
+    ));
 
   const CartTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -44,7 +50,7 @@ export default function ShoppingWebsiteMenu({ children }) {
       fontSize: theme.typography.pxToRem(12),
       width: "30vw",
       border: "1px solid #ccc",
-      boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)"
+      boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)",
     },
   }));
 
@@ -52,8 +58,8 @@ export default function ShoppingWebsiteMenu({ children }) {
     color: "white",
     backgroundColor: "red",
     fontSize: 8,
-    width: '100%',
-    marginBottom: '5%'
+    width: "100%",
+    marginBottom: "5%",
   }));
 
   return (
@@ -80,54 +86,78 @@ export default function ShoppingWebsiteMenu({ children }) {
           </Typography>
         </Box>
         <Box sx={{ marginRight: "2%", display: "flex", alignItems: "center" }}>
-        <ClickAwayListener onClickAway={handleTooltipClose}>
+          <ClickAwayListener onClickAway={handleTooltipClose}>
             <div>
-          <CartTooltip
-            title={
-              <Box>
-                <Typography sx={{ width: '100%', fontWeight: "bold", fontSize: 18, marginTop: "5%" }}>You have {cart.length} item in your cart!</Typography>
-                <Divider sx={{ marginTop: '5%', marginBottom: '5%' }} />
-                <table style={{ width: '100%' }}>
-                  <thead>
-                    <tr>
-                      <th style={{ fontSize: 14}}>Item</th>
-                      <th style={{ fontSize: 14}}>Units</th>
-                      <th style={{ fontSize: 14}}>Price</th>
-                    </tr>
-                  </thead>
-                  <tbody>{distinctArray}</tbody>
-                </table>
-                <Divider sx={{ marginTop: '5%', marginBottom: '5%' }} />
-                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                  <Typography sx={{ fontWeight: "bold", fontSize: 16 }}>Total Order Value</Typography>
-                  <Typography sx={{ fontWeight: "bold", fontSize: 16 }}>£ {cart.map(cartElement => cartElement.price).reduce((accumulator, currentValue) => accumulator + currentValue, 0) }</Typography>
-                </Box>
-                <Divider sx={{ marginTop: '5%', marginBottom: '5%' }} />
-                <CheckoutButton>Checkout</CheckoutButton>
-              </Box>
-            }
-            PopperProps={{
-              disablePortal: true,
-            }}
-            onClose={handleTooltipClose}
-            open={open}
-            disableFocusListener
-            disableHoverListener
-            disableTouchListener
-            arrow
-            placement="bottom-start"
-          >
-            <div className="cart-icon-container">
-              <ShoppingCartIcon
-                sx={{ width: 30, height: 30, color: "white" }}
-                onClick={handleTooltipOpen}
-              />
-              {cart.length > 0 && (
-                <span className="item-count">{cart.length}</span>
-              )}
+              <CartTooltip
+                title={
+                  <Box>
+                    <Typography
+                      sx={{
+                        width: "100%",
+                        fontWeight: "bold",
+                        fontSize: 18,
+                        marginTop: "5%",
+                      }}
+                    >
+                      You have {cart.length} item in your cart!
+                    </Typography>
+                    <Divider sx={{ marginTop: "5%", marginBottom: "5%" }} />
+                    <table style={{ width: "100%" }}>
+                      <thead>
+                        <tr>
+                          <th style={{ fontSize: 14 }}>Item</th>
+                          <th style={{ fontSize: 14 }}>Units</th>
+                          <th style={{ fontSize: 14 }}>Price</th>
+                        </tr>
+                      </thead>
+                      <tbody>{distinctArray}</tbody>
+                    </table>
+                    <Divider sx={{ marginTop: "5%", marginBottom: "5%" }} />
+                    <Box
+                      sx={{ display: "flex", justifyContent: "space-between" }}
+                    >
+                      <Typography sx={{ fontWeight: "bold", fontSize: 16 }}>
+                        Total Order Value
+                      </Typography>
+                      <Typography sx={{ fontWeight: "bold", fontSize: 16 }}>
+                        £{" "}
+                        {cart
+                          .map((cartElement) => cartElement.price)
+                          .reduce(
+                            (accumulator, currentValue) =>
+                              accumulator + currentValue,
+                            0
+                          )}
+                      </Typography>
+                    </Box>
+                    <Divider sx={{ marginTop: "5%", marginBottom: "5%" }} />
+                    <CheckoutButton onClick={handleCheckoutClick}>
+                      Checkout
+                    </CheckoutButton>
+                  </Box>
+                }
+                PopperProps={{
+                  disablePortal: true,
+                }}
+                onClose={handleTooltipClose}
+                open={open}
+                disableFocusListener
+                disableHoverListener
+                disableTouchListener
+                arrow
+                placement="bottom-start"
+              >
+                <div className="cart-icon-container">
+                  <ShoppingCartIcon
+                    sx={{ width: 30, height: 30, color: "white" }}
+                    onClick={handleTooltipOpen}
+                  />
+                  {cart.length > 0 && (
+                    <span className="item-count">{cart.length}</span>
+                  )}
+                </div>
+              </CartTooltip>
             </div>
-          </CartTooltip>
-          </div>
           </ClickAwayListener>
           <Typography sx={{ minWidth: 100, color: "white", fontSize: 14 }}>
             Shopping Cart
